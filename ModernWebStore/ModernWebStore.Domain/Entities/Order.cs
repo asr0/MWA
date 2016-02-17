@@ -1,15 +1,15 @@
 ﻿using ModernWebStore.Domain.Enums;
+using ModernWebStore.Domain.Scopes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModernWebStore.Domain.Entities
 {
-  public  class Order
+    public class Order
     {
         private IList<OrderItem> _orderItems;
+
         public Order(IList<OrderItem> orderItems, int userId)
         {
             this.Date = DateTime.Now;
@@ -43,14 +43,32 @@ namespace ModernWebStore.Domain.Entities
 
         public void AddItem(OrderItem item)
         {
-            //if (item.Register())
+            if (item.Register())
                 _orderItems.Add(item);
         }
 
         public void Place()
         {
-           // if (!this.PlaceOrderScopeIsValid())
+            if (!this.PlaceOrderScopeIsValid())
                 return;
+        }
+
+        public void MarkAsPaid()
+        {
+            // Dá baixa no estoque
+            this.Status = EOrderStatus.Paid;
+        }
+
+        public void MarkAsDelivered()
+        {
+            this.Status = EOrderStatus.Delivered;
+        }
+
+        public void Cancel()
+        {
+            // Estorna os produtos
+
+            this.Status = EOrderStatus.Canceled;
         }
     }
 }

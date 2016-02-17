@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModernWebStore.Domain.Scopes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,11 @@ namespace ModernWebStore.Domain.Entities
 
         public int OrderId { get; private set; }
         public Order Order { get; private set; }
+
+        public bool Register()
+        {
+            return this.RegisterOrderItemScopeIsValid();
+        }
 
     }
 }
